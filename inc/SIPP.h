@@ -65,9 +65,8 @@ class SIPP: public SingleAgentSolver
 public:
 
     // find path by SIPP
-	// Returns a shortest path that satisfies the constraints of the give node  while
-	// minimizing the number of internal conflicts (that is conflicts with known_paths for other agents found so far).
-	// lowerbound is an underestimation of the length of the path in order to speed up the search.
+	// Returns a shortest path that satisfies the constraints of the give node  while minimizing the number of internal conflicts (that is conflicts with known_paths for other agents found so far).
+    // lowerbound is an underestimation of the length of the path in order to speed up the search.
     //Path findOptimalPath(const PathTable& path_table) {return Path(); } // TODO: To implement
     //Path findOptimalPath(const ConstraintTable& constraint_table, const PathTableWC& path_table);
 	Path findOptimalPath(const HLNode& node, const ConstraintTable& initial_constraints,

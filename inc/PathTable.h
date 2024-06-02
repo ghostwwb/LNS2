@@ -7,8 +7,11 @@ class PathTable
 {
 public:
     int makespan = 0;
+    // 索引为agent_id，值为一条路径（不是Path对象（location的集合））
     vector< vector<int> > table; // this stores the collision-free paths, the value is the id of the agent
+    // 索引为agent_id，值为timestep
     vector<int> goals; // this stores the goal locatons of the paths: key is the location, while value is the timestep when the agent reaches the goal
+    // 重置所有agent路径
     void reset() { auto map_size = table.size(); table.clear(); table.resize(map_size); goals.assign(map_size, MAX_COST); makespan = 0; }
     void insertPath(int agent_id, const Path& path);
     void deletePath(int agent_id, const Path& path);

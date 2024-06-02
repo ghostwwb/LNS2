@@ -68,7 +68,7 @@ bool LNS::run()
             succ = init_lns->run();
             if (succ) // accept new paths
             {
-                // 构建安全区间表？所有代理的路径储存在时空表中
+                // 所有代理的路径置空
                 path_table.reset();
                 for (const auto & agent : agents)
                 {
@@ -82,6 +82,7 @@ bool LNS::run()
         }
         else // use random restart
         {
+            // 随即重启，直到找到初始解决方案或用时超过时间限制
             while (!succ && initial_solution_runtime < time_limit)
             {
                 succ = getInitialSolution();
@@ -117,7 +118,7 @@ bool LNS::run()
         if(screen >= 1)
             // 验证初始解决方案有没有冲突，只打印
             validateSolution();
-        // 选择邻域选择方法
+        // 选择邻域选择方法，为destroy_strategy赋值
         if (ALNS)
             chooseDestroyHeuristicbyALNS();
 
@@ -173,6 +174,7 @@ bool LNS::run()
             exit(-1);
         }
 
+        // 更新destroy heuristics(邻域选择权重参数)
         if (ALNS) // update destroy heuristics
         {
             if (neighbor.old_sum_of_costs > neighbor.sum_of_costs )
@@ -373,7 +375,7 @@ bool LNS::runPP()
 {
     // 复制neighbor.agents中的元素到shuffled_agents中
     auto shuffled_agents = neighbor.agents;
-    // 随机打乱agent顺序
+    // 对agent进行随机优先级顺序
     std::random_shuffle(shuffled_agents.begin(), shuffled_agents.end());
     // 打印初始的启发值
     if (screen >= 2) {
@@ -382,7 +384,7 @@ bool LNS::runPP()
                 "->" << agents[id].path.size() - 1 << "), ";
         cout << endl;
     }
-    // agent数量
+    // 未重规划的agent数量
     int remaining_agents = (int)shuffled_agents.size();
     // P为可迭代对象，指向第一个agent，当前agent
     auto p = shuffled_agents.begin();
@@ -410,27 +412,33 @@ bool LNS::runPP()
         agents[id].path = agents[id].path_planner->findPath(constraint_table);
         if (agents[id].path.empty()) break;
         neighbor.sum_of_costs += (int)agents[id].path.size() - 1;
+        // 可能死循环，需要检查
         if (neighbor.sum_of_costs >= neighbor.old_sum_of_costs)
             break;
         remaining_agents--;
+        // 将path添加到ptah_table中
         path_table.insertPath(agents[id].id, agents[id].path);
         ++p;
     }
+    // 未规划智能体数量为0，且代价总和小于等于原代价总和
     if (remaining_agents == 0 && neighbor.sum_of_costs <= neighbor.old_sum_of_costs) // accept new paths
     {
         return true;
     }
     else // stick to old paths
     {
+        // P指向的不是最后一个agent，代表本次规划失败
         if (p != shuffled_agents.end())
             num_of_failures++;
         auto p2 = shuffled_agents.begin();
+        // 将所有agent的path置空
         while (p2 != p)
         {
             int a = *p2;
             path_table.deletePath(agents[a].id, agents[a].path);
             ++p2;
         }
+        // 将所有agent的path置为原路径
         if (!neighbor.old_paths.empty())
         {
             p2 = neighbor.agents.begin();

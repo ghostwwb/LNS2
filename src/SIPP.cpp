@@ -32,24 +32,28 @@ Path SIPP::findPath(const ConstraintTable& constraint_table)
     //Path path = findNoCollisionPath(constraint_table);
     //if (!path.empty())
     //    return path;
-    // 构建安全区间表
+    // 构建安全区间表SIT
     ReservationTable reservation_table(constraint_table, goal_location);
     // 初始化path
     Path path;
-    // 获取第一个安全区间
+    // 获取起点的第一个安全区间
     Interval interval = reservation_table.get_first_safe_interval(start_location);
     if (get<0>(interval) > 0)
         return path;
+    // 终点的过了这个时间就可以一直停留在那
     auto holding_time = constraint_table.getHoldingTime(goal_location, constraint_table.length_min);
     auto last_target_collision_time = constraint_table.getLastCollisionTimestep(goal_location);
     // generate start and add it to the OPEN & FOCAL list
     auto h = max(max(my_heuristic[start_location], holding_time), last_target_collision_time + 1);
+    // 初始化SIPP根节点
     auto start = new SIPPNode(start_location, 0, h, nullptr, 0, get<1>(interval), get<1>(interval),
                                 get<2>(interval), get<2>(interval));
+    // 只添加到focal中
     pushNodeToFocal(start);
 
     while (!focal_list.empty())
     {
+        // 取出栈顶元素，并删除
         auto* curr = focal_list.top();
         focal_list.pop();
         curr->in_openlist = false;
@@ -58,6 +62,7 @@ Path SIPP::findPath(const ConstraintTable& constraint_table)
         // check if the popped node is a goal
         if (curr->is_goal)
         {
+            // 更新路径
             updatePath(curr, path);
             break;
         }
@@ -65,6 +70,7 @@ Path SIPP::findPath(const ConstraintTable& constraint_table)
                  !curr->wait_at_goal && // not wait at the goal location
                  curr->timestep >= holding_time) // the agent can hold the goal location afterward
         {
+            // 计算到达终点后的软碰撞
             int future_collisions = constraint_table.getFutureNumOfCollisions(curr->location, curr->timestep);
             if (future_collisions == 0)
             {
