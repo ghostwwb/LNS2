@@ -1,0 +1,51 @@
+初始规划（使用pp或者initLNS）
+path_table中记录所有agent.path
+LNS重规划终止条件为运行时间及迭代次数（while）
+	构建agent邻域
+	重规划使用runPP（）
+	初始化neighbor中的代价
+	构建约束表（通过path_table构建，所有的agent）
+	遍历智能体，为每个agent规划路径find_path（constraint_table）
+
+
+
+LNS(BasicLNS)
+.agents
+	.id
+	.path
+	.path_planner(单智能体规划算法对象)
+.destroy_strategy
+.instance（包括地图信息和智能体信息）
+.neighbor_size
+.selected_neighbor
+.neighbor
+	.agents
+		.id
+		.path
+	.sum_of_costs
+	.old_sum_of_costs
+	.colliding_pairs
+	.old_colliding_pairs
+	.old_paths
+
+ConstraintTable
+	friend class ReservationTable
+	.length_min
+	.length_max = MAX_TIMESTEP
+	.path_table_for_CT(const PathTable *)
+	.path_table_for_CAT(const PathTableWC *)
+
+ReservationTable
+	.constraint_table
+	.goal_location
+
+
+
+
+
+
+
+
+
+
+
