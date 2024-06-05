@@ -5,7 +5,7 @@
 //pibt related
 #include "simplegrid.h"
 #include "pibt_agent.h"
-#include "problem1.h"
+#include "problem.h"
 #include "mapf.h"
 #include "pibt.h"
 #include "pps.h"

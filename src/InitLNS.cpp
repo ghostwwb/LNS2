@@ -321,11 +321,12 @@ bool InitLNS::runPP()
         remaining_agents--;
         if (screen >= 3)
         {
-            runtime = ((fsec)(Time::now() - start_time)).count();
-            cout << "After agent " << id << ": Remaining agents = " << remaining_agents <<
-                 ", colliding pairs = " << neighbor.colliding_pairs.size() <<
-                 ", LL nodes = " << agents[id].path_planner->getNumExpanded() <<
-                 ", remaining time = " << time_limit - runtime << " seconds. " << endl;
+//            runtime = ((fsec)(Time::now() - start_time)).count();
+//            cout << "After agent " << id << ": Remaining agents = " << remaining_agents <<
+//                 ", colliding pairs = " << neighbor.colliding_pairs.size() <<
+//                 ", LL nodes = " << agents[id].path_planner->getNumExpanded() <<
+//                 ", remaining time = " << time_limit - runtime << " seconds. " << endl;
+            cout << "Agent_" << id << ": " << agents[id].path << endl;
         }
         if (neighbor.colliding_pairs.size() > neighbor.old_colliding_pairs.size())
             break;

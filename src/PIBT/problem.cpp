@@ -5,7 +5,7 @@
  * Created by: Keisuke Okumura <okumura.k@coord.c.titech.ac.jp>
  */
 
-#include "problem1.h"
+#include "problem.h"
 #include "util.h"
 #include <random>
 

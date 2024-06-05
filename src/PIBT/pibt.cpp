@@ -22,9 +22,7 @@ PIBT::PIBT(Problem* _P) : Solver(_P)
   init();
 }
 
-PIBT::PIBT(Problem* _P, std::mt19937* _MT) :
-        Solver(_P)
-//        Solver(_P, _MT)
+PIBT::PIBT(Problem* _P, std::mt19937* _MT) : Solver(_P, _MT)
 {
   init();
 }

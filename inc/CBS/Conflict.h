@@ -8,7 +8,8 @@ enum conflict_priority { CARDINAL, PSEUDO_CARDINAL, SEMI, NON, UNKNOWN, PRIORITY
 // Pseudo-cardinal conflicts are semi-/non-caridnal conflicts between dependent agents. 
 // We prioritize them over normal semi-/non-caridnal conflicts 
 
-enum constraint_type { LEQLENGTH, GLENGTH, RANGE, BARRIER, VERTEX, EDGE, POSITIVE_VERTEX, POSITIVE_EDGE, CONSTRAINT_COUNT};
+enum constraint_type { LEQLENGTH, GLENGTH, RANGE, BARRIER, VERTEX, EDGE, 
+											POSITIVE_VERTEX, POSITIVE_EDGE, CONSTRAINT_COUNT};
 
 enum conflict_selection {RANDOM, EARLIEST, CONFLICTS, MCONSTRAINTS, FCONSTRAINTS, WIDTH, SINGLETONS};
 

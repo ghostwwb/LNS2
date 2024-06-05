@@ -118,6 +118,8 @@ bool LNS::run()
         if(screen >= 1)
             // 验证初始解决方案有没有冲突，只打印
             validateSolution();
+            cout << "agent1_path" << &neighbor.old_paths[0] << endl;
+            cout << "agent2_path" << &neighbor.old_paths[1] << endl;
         // 选择邻域选择方法，为destroy_strategy赋值
         if (ALNS)
             chooseDestroyHeuristicbyALNS();
@@ -194,6 +196,7 @@ bool LNS::run()
                  << "remaining time = " << time_limit - runtime << endl;
         iteration_stats.emplace_back(neighbor.agents.size(), sum_of_costs, runtime, replan_algo_name);
     }
+
 
 
     average_group_size = - iteration_stats.front().num_of_agents;

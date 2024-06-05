@@ -5,7 +5,6 @@
 #include "AnytimeEECBS.h"
 #include "PIBT/pibt.h"
 
-#define DBOOST_LOG_DYN_LINK
 
 /* Main function */
 int main(int argc, char** argv)
@@ -13,13 +12,6 @@ int main(int argc, char** argv)
 	namespace po = boost::program_options;
 	// Declare the supported options.
 	po::options_description desc("Allowed options");
-    // ./lns -m random-32-32-20.map -a random-32-32-20-random-1.scen -o test -k 400 -t 300 --outputPaths=paths.txt
-    // m: the map file from the MAPF benchmark
-    // a: the scenario file from the MAPF benchmark
-    // o: the output file name (no need for file extension)
-    // k: the number of agents
-    // t: the runtime limit
-    // outputPaths: the output file that contains the paths
 	desc.add_options()
 		("help", "produce help message")
 
@@ -30,7 +22,7 @@ int main(int argc, char** argv)
         ("output,o", po::value<string>(), "output file name (no extension)")
         ("outputPaths", po::value<string>(), "output file for paths")
         ("cutoffTime,t", po::value<double>()->default_value(7200), "cutoff time (seconds)")
-		("screen,s", po::value<int>()->default_value(0),
+		("screen,s", po::value<int>()->default_value(3),
 		        "screen option (0: none; 1: LNS results; 2:LNS detailed results; 3: MAPF detailed results)")
 		("stats", po::value<string>(), "output stats file")
 
@@ -75,7 +67,6 @@ int main(int argc, char** argv)
 
 	srand((int)time(0));
 
-    // 初始化实例，地图以及agent
 	Instance instance(vm["map"].as<string>(), vm["agents"].as<string>(),
 		vm["agentNum"].as<int>());
     double time_limit = vm["cutoffTime"].as<double>();

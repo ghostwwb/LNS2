@@ -18,10 +18,7 @@ winPIBT::winPIBT(Problem* _P, int _w, bool _softmode)
 }
 
 winPIBT::winPIBT(Problem* _P, int _w, bool _softmode, std::mt19937* _MT)
-  :
-  Solver(_P)
-//  Solver(_P, _MT)
-  , w(_w), softmode(_softmode)
+  : Solver(_P, _MT), w(_w), softmode(_softmode)
 {
   init();
 }

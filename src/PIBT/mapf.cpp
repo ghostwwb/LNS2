@@ -7,7 +7,6 @@
 
 #include "mapf.h"
 #include "util.h"
-using namespace std;
 
 MAPF::MAPF(Graph* _G,
            PIBT_Agents _A,
@@ -16,13 +15,11 @@ MAPF::MAPF(Graph* _G,
   init();
 }
 
-MAPF::MAPF(Graph* _G, PIBT_Agents _A, std::vector<Task *> _T, std::mt19937* _MT )
-        :
-            MAPF(_G,  _A, _T)
-//            MT(_MT)
+MAPF::MAPF(Graph* _G,
+           PIBT_Agents _A,
+           std::vector<Task*> _T,
+           std::mt19937* _MT) : Problem(_G, _A, _T, _MT)
 {
-//    this->MT = _MT;
-    timestep = 0;
   init();
 }
 
